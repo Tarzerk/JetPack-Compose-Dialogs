@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.moreactions.AddDiscount
 
 @Composable
 fun MoreActionsDialog(onDismissRequest: () -> Unit = {}) {
@@ -96,28 +97,6 @@ fun MoreActionsDialog(onDismissRequest: () -> Unit = {}) {
     }
 }
 
-@Composable
-fun AddDiscount(onDismissRequest: () -> Unit) {
-    Dialog(onDismissRequest = onDismissRequest) {
-        Surface(
-            shape = MaterialTheme.shapes.medium,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text(text = "Discount", style = MaterialTheme.typography.headlineMedium)
-                RadioButtonOption("New customer loyalty", "5%")
-                RadioButtonOption("Christmas winter sale", "12%")
-                RadioButtonOption("Summer sale", "3%")
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = onDismissRequest) {
-                    Text("Close")
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun AddNote(onDismissRequest: () -> Unit) {
@@ -137,8 +116,16 @@ fun AddNote(onDismissRequest: () -> Unit) {
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = onDismissRequest) {
-                    Text("Close")
+                Row(modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+
+                ) {
+                    Button(onClick = onDismissRequest) {
+                        Text("Close")
+                    }
+                    Button(onClick = onDismissRequest) {
+                        Text("Save")
+                    }
                 }
             }
         }
