@@ -25,15 +25,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.moreactions.AddDiscount
+import com.example.moreactions.AddNote
 
 @Composable
 fun MoreActionsDialog(onDismissRequest: () -> Unit = {}) {
     var showDiscountDialog by remember { mutableStateOf(false) }
+    var selectedPercentage by remember { mutableStateOf("") }
     var showAddNoteDialog by remember { mutableStateOf(false) }
+    var savedNote = ""
     var showReferenceCodeDialog by remember { mutableStateOf(false) }
 
     // Main dialog
@@ -85,11 +87,25 @@ fun MoreActionsDialog(onDismissRequest: () -> Unit = {}) {
 
     // Show individual dialogs
     if (showDiscountDialog) {
-        AddDiscount(onDismissRequest = { showDiscountDialog = false })
+        AddDiscount(
+            onDismissRequest = {
+                showDiscountDialog = false
+                               },
+            onSave = {
+                selectedPercentage = it
+            }
+        )
     }
 
+    // Show AddNote dialog
     if (showAddNoteDialog) {
-        AddNote(onDismissRequest = { showAddNoteDialog = false })
+        AddNote(
+            initialNote = savedNote, // Optional: prefill with the saved note
+            onDismissRequest = { showAddNoteDialog = false },
+            onSave = { note ->
+                savedNote = note // Update the saved note
+            }
+        )
     }
 
     if (showReferenceCodeDialog) {
@@ -97,40 +113,6 @@ fun MoreActionsDialog(onDismissRequest: () -> Unit = {}) {
     }
 }
 
-
-@Composable
-fun AddNote(onDismissRequest: () -> Unit) {
-    Dialog(onDismissRequest = onDismissRequest) {
-        Surface(
-            shape = MaterialTheme.shapes.medium,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text(text = "Add Note", style = MaterialTheme.typography.headlineMedium)
-                TextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Add a note") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-
-                ) {
-                    Button(onClick = onDismissRequest) {
-                        Text("Close")
-                    }
-                    Button(onClick = onDismissRequest) {
-                        Text("Save")
-                    }
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun ReferenceCode(onDismissRequest: () -> Unit) {

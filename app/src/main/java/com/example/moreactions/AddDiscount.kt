@@ -9,7 +9,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun AddDiscount(onDismissRequest: () -> Unit) {
+fun AddDiscount(
+    onDismissRequest: () -> Unit,
+    onSave: (String) -> Unit
+) {
     // State to manage selected radio button
     var selectedOption by remember { mutableStateOf("") }
 
@@ -56,8 +59,8 @@ fun AddDiscount(onDismissRequest: () -> Unit) {
                     }
                     Button(
                         onClick = {
-                            // Save logic can go here
                             onDismissRequest()
+                            onSave(selectedOption)
                         }
                     ) {
                         Text("Save")
